@@ -19,7 +19,7 @@ export interface UISpinDropdownOption {
     } | string>             // string은 "seperator" 전달시 수평 seperator 표시됨.
     readonly active_index?: number; // active_index 지정이 있을 때만 (0 이상) active_index 항목의 highlight 처리함.
     button_name?: string;   // 값 지정이 없으면 선택된 항목의 name으로 표시됨.
-    button_width?: string;
+    button_width?: number;
     list_width?: string;
     list_height?: string;
     large_padding?: boolean;
@@ -30,19 +30,30 @@ export interface UISpinDropdownOption {
     selector: "ui-dropdown",
     template: `
         <div class='ui-dropdown'>
-            <div class='ui-dropdown-btn' (mouseover)='showList_on_hover(true)' (mouseleave)='showList_on_hover(false)' 
-                (click)='toggleShowList($event)'
-                [style.width]='options.button_width'
-                [attr.active]='!SHOW_LIST'
-                [attr._disabled]='disabled'
-                tabindex='1'>
-                <input #inputbox type='text' [value]='getButtonString()' 
-                    (keyup.enter)='update(inputbox.value)'
-                    (focus)='onFocusInputBox()'
-                    (blur)='onBlurInputBox()'
-                    style='width:100%; border:none'>
-                <div class='ui-dropdown-arrow'><span class='m1f-arrow-list-single toolbar-btn-icon'></span></div>
+            <div class='hor-container'>
+                <div class='ui-dropdown-btn' (mouseover)='showList_on_hover(true)' (mouseleave)='showList_on_hover(false)' 
+                    (click)='toggleShowList($event)'
+                    [style.width.px]='options.button_width - 17'
+                    [attr.active]='!SHOW_LIST'
+                    [attr._disabled]='disabled'
+                    tabindex='1'>
+                    <input #inputbox class='ui-inputbox' type='text' [value]='getButtonString()' 
+                        (keyup.enter)='update(inputbox.value)'
+                        (keyup.escape)='update(inputbox.value)'
+                        (focus)='onFocusInputBox()'
+                        (blur)='onBlurInputBox()'
+                        style='width:100%; border:none'>
+                </div>
+                <div class='ui-spinbox'>
+                    <div class='ui-dropdown-up-arrow' (click)='increase_value(1)'>
+                        <span class='m1f-arrow-list-single toolbar-btn-icon'></span>
+                    </div>
+                    <div class='ui-dropdown-down-arrow' (click)='increase_value(-1)'>
+                        <span class='m1f-arrow-list-single toolbar-btn-icon'></span>
+                    </div>
+                </div>
             </div>
+
             <div *ngIf='!SHOW_LIST'>
                 <div class='ui-dropdown-list'
                     [style.width]='options.list_width'
@@ -121,7 +132,6 @@ export class UISpinDropdown implements OnInit {
                 }
             }, 10)
         }
-        
     }
 
     focus_blur() {
@@ -196,4 +206,14 @@ export class UISpinDropdown implements OnInit {
         }
     }
 
+    increase_value(step) {
+        console.log(this.current_sel)
+        let val = parseInt(this.current_sel.value) + step;
+        let item = {
+            name: val + 'pt',
+            value: val
+        }
+        this._setValue(item);
+        this.inputboxEl.nativeElement.value = item.name;
+    }
 }

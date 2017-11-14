@@ -40,7 +40,7 @@ export class AppComponent implements OnInit {
         ],
         active_index: 2,
         //button_name: 'font-size',
-        button_width: '68px',
+        button_width: 84,
         list_width: '86px',
         list_height: '180px',
         show_list_on_hover: true			
