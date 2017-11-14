@@ -39,7 +39,7 @@ export interface UISpinDropdownOption {
                 <input #inputbox type='text' [value]='getButtonString()' 
                     (keyup.enter)='update(inputbox.value)'
                     (focus)='onFocusInputBox()'
-                    (blur)='update(inputbox.value)'
+                    (blur)='onBlurInputBox()'
                     style='width:100%; border:none'>
                 <div class='ui-dropdown-arrow'><span class='m1f-arrow-list-single toolbar-btn-icon'></span></div>
             </div>
@@ -75,6 +75,7 @@ export class UISpinDropdown implements OnInit {
     @ViewChild('inputbox') inputboxEl: ElementRef;
     show_list_case_hover = false;
     tentative_hide = false; // hover시에만 사용됨.
+    inputBoxFocus = false;
 
     show_list_case_click = false;
     current_sel = null;
@@ -107,7 +108,7 @@ export class UISpinDropdown implements OnInit {
         // dropdown button과 list사이를 왔다갔다 할 때 show가 유지되도록 하기 위함.
 
         // console.log("showList_on_hover: ", val);
-        if (val) {
+        if (val && this.inputBoxFocus == false) {
             this.show_list_case_hover = val;
             this.tentative_hide = false;
         }
@@ -155,8 +156,17 @@ export class UISpinDropdown implements OnInit {
 
     // focus를 받으면 전체 선택이 되어 있도록 한다.
     onFocusInputBox() {
+        this.inputBoxFocus = true;
         let el = this.inputboxEl.nativeElement;
-        el.setSelectionRange(0, el.value.length)
+        el.setSelectionRange(0, el.value.length);
+
+        this.showList_on_hover(false);
+    }
+    onBlurInputBox() {
+        this.inputBoxFocus = false;
+        
+        let el = this.inputboxEl.nativeElement;
+        this.update(el.value);
     }
 
     update(str) {
