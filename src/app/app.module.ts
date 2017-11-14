@@ -2,10 +2,11 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
+import { UISpinDropdown } from './ui-spindropdown.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent, UISpinDropdown
   ],
   imports: [
     BrowserModule

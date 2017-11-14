@@ -1,1 +1,68 @@
 /* You can add global styles to this file, and also import other style files */
+
+/*  17.6.15
+    webflow.css가 line-height:20으로 강제하고 있음.
+    추후 webflow.css제거하면 아래 내용도 제거할 것.
+*/
+body {
+    line-height:normal !important;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+@import url('https://fonts.googleapis.com/earlyaccess/notosanskr.css');
+* {
+    font-family: 'Noto Sans KR', sans-serif;
+}
+
+*:focus {
+    outline: none;
+}
+
+
+/* SCROLL BAR */
+
+.os-scroll-style::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+.os-scroll-style::-webkit-scrollbar-track {
+    border-radius: 4px;
+    background-color: #f9f9f9;
+}
+
+.os-scroll-style::-webkit-scrollbar-thumb {
+    border-radius: 4px;
+    background-color: #D1D1D1;
+    min-height: 100px;
+}
+
+.os-scroll-style::-webkit-scrollbar-thumb:hover {
+    background-color: #CBCBCB;
+}
+
+
+/* SCROLL BAR - Dark*/
+
+.os-scroll-style-dark::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+.os-scroll-style-dark::-webkit-scrollbar-track {
+    border-radius: 4px;
+    background-color: transparent;
+}
+
+.os-scroll-style-dark::-webkit-scrollbar-thumb {
+    border-radius: 4px;
+    background-color: #a9acb7;
+    min-height: 100px;
+}
+
+.os-scroll-style-dark::-webkit-scrollbar-thumb:hover {
+    background-color: #c4c8da;
+}

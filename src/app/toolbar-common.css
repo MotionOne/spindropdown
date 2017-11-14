@@ -1,0 +1,132 @@
+.toolbar-container {
+    display: block;
+    position: absolute;
+    width: 100%;
+    height: 48px;
+}
+
+.top-toolbar-btn {
+    display: inline-block;
+    min-width: 40px;
+    height: 48px;
+    cursor: pointer;
+    padding: 13px 10px 10px 10px;
+    font-size: 13px;
+    text-align: center;
+    /*color: rgba(255,255,255,0.85);*/
+}
+
+.top-toolbar-btn:not([disabled='true']):hover {
+    /*background-color: rgba(255,255,255,0.25);*/
+}
+
+.top-toolbar-btn[disabled=true] {
+    /*color: rgba(255,255,255,0.3333);*/
+    pointer-events: none;
+}
+
+.toolbar-btn {
+    display: inline-block;
+    min-width: 40px;
+    height: 40px;
+    margin-right: 3px;
+    margin-left: 3px;
+    cursor: pointer;
+    padding: 10px;
+    font-size: 13px;
+    text-align: center;
+}
+
+.toolbar-btn-action {
+    min-width: 60px;
+}
+
+.toolbar-btn-icon-action {
+    min-width: 28px;
+    height: 30px;
+    padding: 0px;
+    margin: 5px 0px;
+    line-height: 29px;
+}
+
+.toolbar-btn-icon-action.active {
+    background-color: #ddd;
+}
+
+/* ------------------------- */
+
+.toolbar-btn:not([disabled='true']):hover {
+    background-color: #ccc;
+}
+
+.toolbar-btn[disabled=true] {
+    opacity: 0.5;
+    pointer-events: none;
+}
+
+/* ------------------------- */
+
+.theme-blue .toolbar-btn {
+    color: rgba(255,255,255,0.85);
+}
+
+.theme-blue .toolbar-btn:not([disabled='true']):hover {
+    background-color: #8ccffb;
+}
+
+.theme-blue .toolbar-btn[disabled=true] {
+    color:rgba(255,255,255,0.5);
+    pointer-events: none;
+}
+
+/* ------------------------- */
+
+.toolbar-seperator {
+    display: inline-block;
+    vertical-align: top;
+    width: 1px;
+    margin: 3px 0px;
+    padding: 0px;
+    height: 34px;
+    border-left: 1px solid #ddd;
+}
+
+.toolbar-left {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+}
+
+.toolbar-right {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+}
+
+.toolbar-center {
+    position: relative;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.top-toolbar-btn-icon {    /* 가장 상단 title 영역에 있는 toolbar */
+    font-size: 18px;
+}
+
+.toolbar-btn-icon {
+    font-size: 16px;
+    color: inherit;
+    vertical-align: sub;
+}
+
+.toolbar-color-btn {
+    display: inline-block;
+    position: relative;
+    width: 26px;
+    height: 26px;
+    border-radius: 13px;
+    box-shadow: 
+        inset 1px 1px 6px rgba(0,0,0,.15), 
+        inset -1px -1px 0 rgba(255,255,255,.25);
+    margin-top: 6px;
+}
