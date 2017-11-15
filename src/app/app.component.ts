@@ -42,7 +42,7 @@ export class AppComponent implements OnInit {
         active_index: 3,
         button_width: 84,
         list_width: '86px',
-        list_height: '180px',
+        list_height: '240px',
         show_list_on_hover: true,
         input_fn: (str)	=> {
           str = str.trim();

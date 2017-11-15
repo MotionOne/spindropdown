@@ -40,8 +40,7 @@ export interface UISpinDropdownOption {
                     [attr._disabled]='disabled'
                     tabindex='1'>
                     <input #inputbox class='ui-inputbox' type='text' [value]='getButtonString()' 
-                        (keyup.enter)='update(inputbox.value)'
-                        (keyup.escape)='update(inputbox.value)'
+                        (keydown)='onKeydownInputBox($event)'
                         (focus)='onFocusInputBox()'
                         (blur)='onBlurInputBox()'
                         style='width:100%; border:none'>
@@ -183,6 +182,38 @@ export class UISpinDropdown implements OnInit {
         this.update(el.value);
     }
 
+    onKeydownInputBox(event) {
+        let el = this.inputboxEl.nativeElement;
+
+        /* 
+            text를 selection(ctrl+a등)하면 focus를 잃게 되고 blur이벤트가 발생하고 거기서 this.update()가 불리는 문제있음.
+        */
+
+        switch(event.keyCode) {
+            case 13: // enter
+                this.update(el.value);
+                break;
+            case 27: //escape
+                this.inputboxEl.nativeElement.value = this.current_sel.name;            
+                break;
+            // case 38: // arrow up
+            //     this.increase_value(1);
+            //     event.stopPropagation();
+            //     event.preventDefault();   
+            //     break;
+            // case 40: // arrow down
+            //     this.increase_value(-1);
+            //     event.stopPropagation();
+            //     event.preventDefault();   
+            //     break;
+            default:            
+                break;
+        }
+
+        event.stopPropagation();
+        // event.preventDefault();
+    }
+
     update(str) {
         let item = this.options.input_fn(str);
         if (item == null) {
@@ -195,7 +226,9 @@ export class UISpinDropdown implements OnInit {
     }
 
     increase_value(step) {
-        let item = this.options.delta_fn(this.current_sel.value, step);
+        let cur_item = this.options.input_fn(this.inputboxEl.nativeElement.value);
+        let item = this.options.delta_fn(cur_item.value, step);
+
         this._setValue(item);
         this.inputboxEl.nativeElement.value = item.name;
     }
