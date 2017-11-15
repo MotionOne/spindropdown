@@ -166,11 +166,13 @@ export class UISpinDropdown implements OnInit {
         this._setValue(item)
     }
 
-    // focus를 받으면 전체 선택이 되어 있도록 한다.
+    
     onFocusInputBox() {
         this.inputBoxFocus = true;
-        let el = this.inputboxEl.nativeElement;
-        el.setSelectionRange(0, el.value.length);
+
+        // focus를 받으면 전체 선택이 되어 있도록 하려했지만, setSelectionRange()를 하면 input focus를 잃어버리는 문제있음.
+        // let el = this.inputboxEl.nativeElement;
+        // el.setSelectionRange(0, el.value.length);
 
         this.showList_on_hover(false);
     }

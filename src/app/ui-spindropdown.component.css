@@ -2,7 +2,7 @@
     position: relative;
     display: inline-block;
     vertical-align: top;
-    outline:1px solid gray;
+    /* outline:1px solid gray; */
 }
 
 .hor-container {
