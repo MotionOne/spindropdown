@@ -23,7 +23,7 @@
     font-size: 13px;
     text-align: left;
 }
-.ui-dropdown-btn:hover {
+.ui-dropdown-btn:hover[active=true] {
     background-color: #ccc;
 }
 .ui-dropdown-btn[active=true] {
@@ -34,9 +34,9 @@
     pointer-events: none;
 }
 
-.ui-dropdown-btn:focus {
+/* .ui-dropdown-btn:focus {
     background-color: red;
-}
+} */
 
 .ui-spinbox {
     position: relative;

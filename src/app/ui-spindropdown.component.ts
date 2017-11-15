@@ -24,10 +24,12 @@ export interface UISpinDropdownOption {
     list_height?: string;
     large_padding?: boolean;
     show_list_on_hover?: boolean;
+    input_fn: (str)=>{name, value}
+    delta_fn: (value, delta)=>{name, value}  // value:현재값, delta:적용할 증감값
 }
 
 @Component({
-    selector: "ui-dropdown",
+    selector: "ui-spindropdown",
     template: `
         <div class='ui-dropdown'>
             <div class='hor-container'>
@@ -180,39 +182,18 @@ export class UISpinDropdown implements OnInit {
     }
 
     update(str) {
-        console.log('inputbox Blur called');        
-        console.log(str);
-        str = str.trim();
-     
-        // 12.32pt 형식
-        const regex = /^([0-9]+(.[0-9]+)?)[ ]*([a-z]*)?/g;
-        let m = regex.exec(str);
-        if (m == null) {
-            console.log('this.current_sel:', this.current_sel)
-            alert('잘못된 값입니다.')
-            this.inputboxEl.nativeElement.value = this.current_sel.name;
+        let item = this.options.input_fn(str);
+        if (item == null) {
+            this.inputboxEl.nativeElement.value = this.current_sel.name;            
         }
         else {
-            let val = m[1];
-            let unit = m[3];
-            unit = 'pt'; // 당분강 강제 'pt'로 설정함.
-
-            let item = {
-                name: val + unit,
-                value: val
-            }
             this._setValue(item);
-            this.inputboxEl.nativeElement.value = item.name;
+            this.inputboxEl.nativeElement.value = item.name;            
         }
     }
 
     increase_value(step) {
-        console.log(this.current_sel)
-        let val = parseInt(this.current_sel.value) + step;
-        let item = {
-            name: val + 'pt',
-            value: val
-        }
+        let item = this.options.delta_fn(this.current_sel.value, step);
         this._setValue(item);
         this.inputboxEl.nativeElement.value = item.name;
     }
