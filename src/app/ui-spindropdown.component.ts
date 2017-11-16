@@ -43,6 +43,7 @@ export interface UISpinDropdownResult {
     template: `
         <div class='ui-dropdown'>
             <div class='hor-container'>
+                <ng-content></ng-content>
                 <div class='ui-dropdown-btn' (mouseover)='showList_on_hover(true)' (mouseleave)='showList_on_hover(false)' 
                     (click)='toggleShowList($event)'
                     [style.width.px]='options.button_width - 17'
@@ -174,10 +175,16 @@ export class UISpinDropdown implements OnInit {
 
         this.showList_on_hover(false);
     }
+
+
+    /*D171116
+        이벤트 순서에 민감하니 canvas-main.component.ts::onMouseDown를 참조할 것.
+    */
     onBlurInputBox() {
         this.inputBoxFocus = false;
         
         let el = this.inputboxEl.nativeElement;
+        console.log('input text: ', el.value)
         this.update_by_string_value(el.value);
     }
 
@@ -218,8 +225,9 @@ export class UISpinDropdown implements OnInit {
     }
 
     ////////////////////////////////////////////////////////////////////////////////////
+    // private method
 
-    private update_by_string_value(str) {
+    update_by_string_value(str) {
         let item = this.options.input_fn(str);
         if (item == null) {
             this.inputboxEl.nativeElement.value = this.getButtonString();
@@ -230,7 +238,7 @@ export class UISpinDropdown implements OnInit {
         }
     }
 
-    private increase_value(step, opt?) {
+    increase_value(step, opt?) {
         let cur_item = this.options.input_fn(this.inputboxEl.nativeElement.value);
         if (cur_item == null)
             return;
@@ -242,7 +250,7 @@ export class UISpinDropdown implements OnInit {
         this.inputboxEl.nativeElement.value = item.name;
     }
 
-    private _setValue(item, opt?) {
+    _setValue(item, opt?) {
         // console.log(item);
         this.show_list_case_hover = false;
         this.show_list_case_click = false;
