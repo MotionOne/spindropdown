@@ -1,4 +1,6 @@
-import { Component, OnInit, Input, Output, EventEmitter, ViewChild, ElementRef } from '@angular/core';
+import { Component, Directive, OnInit, Input, Output, EventEmitter, ViewChild, ElementRef } from '@angular/core';
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/Rx';
 
 /*
     필요한 option
@@ -57,10 +59,10 @@ export interface UISpinDropdownResult {
                         style='width:100%; border:none'>
                 </div>
                 <div class='ui-spinbox'>
-                    <div class='ui-dropdown-up-arrow' (click)='increase_value(1)'>
+                    <div #spinup class='ui-dropdown-up-arrow noselect' (mousedown)='auto_increase_value(1)'>
                         <span class='m1f-arrow-list-single toolbar-btn-icon'></span>
                     </div>
-                    <div class='ui-dropdown-down-arrow' (click)='increase_value(-1)'>
+                    <div class='ui-dropdown-down-arrow noselect' (mousedown)='auto_increase_value(-1)'>
                         <span class='m1f-arrow-list-single toolbar-btn-icon'></span>
                     </div>
                 </div>
@@ -96,6 +98,7 @@ export class UISpinDropdown implements OnInit {
     @Input('disabled') disabled = false;
     @Output('changed') changed = new EventEmitter<UISpinDropdownResult>();
     @ViewChild('inputbox') inputboxEl: ElementRef;
+    @ViewChild('spinup') spinupEl: ElementRef;
     show_list_case_hover = false;
     tentative_hide = false; // hover시에만 사용됨.
     inputBoxFocus = false;
@@ -245,9 +248,56 @@ export class UISpinDropdown implements OnInit {
 
         let item = this.options.delta_fn(cur_item.value, step);
 
+        // opt {focus_control:'dont_focus'}
         // 커서키 up/down으로 값을 변경시 focus가 textbox에 가지 않도록 유지한다.
         this._setValue(item, opt);
         this.inputboxEl.nativeElement.value = item.name;
+    }
+
+    /* 
+        기능 : 마우스를 누르고 있는 동안, 반복 호출 한다.
+        
+        주의 사항 :
+        버튼에 .noselect지정을 하여 text가 select 되지 않도록 해야한다.
+        그렇게 해야 document의 mouseup 이벤트를 browser 외부에서도 받을 수 있다.
+    */
+    auto_increase_value(step) {
+        this.increase_value(step); // 단발로 끝날 수 있으므로 하나는 실행한다.
+
+        let opt = {
+            delay: 500,     // unit:ms
+            interval: 50    // unit:ms
+        }
+        
+        let mousedown = Observable
+            .interval(opt.interval)     //  opt.interval 간격으로 값을 발생시킴.
+            .map(x => ({val:x, state: 'none'}))
+            .delay(opt.delay)            // opt.delay 만큼의 delay를 줌 
+
+        let mouseup = Observable.create(observer => {
+            function handler(event) {
+                // next()는 complete()를 호출하기 전까지 여러번 부를 수 있다. 
+                observer.next({val:0, state:'stop'});
+                observer.complete();
+                document.removeEventListener('mouseup', handler);
+            }
+            document.addEventListener('mouseup', handler)
+        });
+
+        Observable.merge(mousedown, mouseup)
+        .takeWhile(x => x.state != 'stop')
+        .subscribe(
+            x => {
+                // console.log('next: ',x)
+                this.increase_value(step);
+            },
+            err => {
+                // console.log('err: ', err);
+            },
+            () => {
+                console.log('auto-fire completed.');
+            }
+        )
     }
 
     _setValue(item, opt?) {

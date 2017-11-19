@@ -49,6 +49,17 @@
     background-color: transparent;
 }
 
+/* text가 select 되지 않도록 함. */
+.noselect {
+    -webkit-touch-callout: none; /* iOS Safari */
+      -webkit-user-select: none; /* Safari */
+       -khtml-user-select: none; /* Konqueror HTML */
+         -moz-user-select: none; /* Firefox */
+          -ms-user-select: none; /* Internet Explorer/Edge */
+              user-select: none; /* Non-prefixed version, currently
+                                    supported by Chrome and Opera */
+}
+
 .ui-dropdown-up-arrow {
     position: absolute;
     display: block;
@@ -62,6 +73,7 @@
     transform: rotate(180deg);
     display: inline-block;
 }
+
 .ui-dropdown-up-arrow:hover {
     background-color: rgba(176,176,176,0.5);
 }
