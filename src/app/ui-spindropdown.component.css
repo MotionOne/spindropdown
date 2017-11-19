@@ -49,6 +49,9 @@
     background-color: transparent;
 }
 
+/* ---------------------------------------------------------*/
+/* ---------------------------------------------------------*/
+
 /* text가 select 되지 않도록 함. */
 .noselect {
     -webkit-touch-callout: none; /* iOS Safari */
@@ -96,7 +99,8 @@
 .ui-dropdown-down-arrow:active {
     background-color: rgba(176,176,176,0.7);
 }
-
+/* ---------------------------------------------------------*/
+/* ---------------------------------------------------------*/
 
 .ui-dropdown-btn[_disabled=true] .ui-dropdown-arrow {
     opacity : 0.25;
