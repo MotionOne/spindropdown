@@ -200,15 +200,16 @@ export class UISpinDropdown implements OnInit {
         */
         switch(event.keyCode) {
             case 13: // enter
-                this.update_by_string_value(el.value);
-                event.stopPropagation();
-                event.preventDefault();
-                break;
             case 27: //escape
-                this.inputboxEl.nativeElement.value = this.getButtonString();            
+            this.update_by_string_value(el.value);
                 event.stopPropagation();
                 event.preventDefault();
                 break;
+            // case 27: //escape
+            //     this.inputboxEl.nativeElement.value = this.getButtonString();            
+            //     event.stopPropagation();
+            //     event.preventDefault();
+            //     break;
             case 38: // arrow up
                 this.increase_value(delta_val, {focus_control:'dont_focus'});
                 event.stopPropagation();
